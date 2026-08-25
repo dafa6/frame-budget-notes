@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The UI control built on a spec that never existed — Frame Budget Notes</title>
+<meta name="description" content="How a plausible three-tier reference setting propagated through half a dozen write-ups of a generative video model, what the official prompt guide actually specifies, and the check that catches this class of error.">
+<link rel="canonical" href="https://dafa6.github.io/frame-budget-notes/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The UI control built on a spec that never existed">
+<meta property="og:description" content="A plausible-sounding three-tier setting that appears in half a dozen write-ups, and the eight-tag specification that is actually documented.">
+<style>
+  :root { --ink:#15161a; --mute:#5b6169; --rule:#e3e6ea; --accent:#4c37c8; --bg:#fbfbfc; }
+  * { box-sizing:border-box }
+  html { -webkit-text-size-adjust:100% }
+  body {
+    margin:0; background:var(--bg); color:var(--ink);
+    font:17px/1.68 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width:41rem; margin:0 auto; padding:0 1.25rem 5rem }
+  header.site { border-bottom:1px solid var(--rule); margin-bottom:3rem; padding:1.5rem 0 }
+  header.site .name { font-weight:650; letter-spacing:-.01em }
+  header.site .tag { color:var(--mute); font-size:.9rem; margin-top:.15rem }
+  h1 { font-size:2rem; line-height:1.22; letter-spacing:-.022em; margin:0 0 .75rem }
+  .standfirst { color:var(--mute); font-size:1.1rem; line-height:1.55; margin:0 0 2rem }
+  h2 { font-size:1.28rem; letter-spacing:-.012em; margin:2.75rem 0 .85rem }
+  p { margin:0 0 1.15rem }
+  a { color:var(--accent); text-underline-offset:2px }
+  a:hover { text-decoration-thickness:2px }
+  code { font:.9em/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; background:#eef0f4; padding:.12em .38em; border-radius:4px }
+  ul, ol { margin:0 0 1.15rem; padding-left:1.35rem }
+  li { margin:.35rem 0 }
+  blockquote { margin:0 0 1.15rem; padding:.1rem 0 .1rem 1.1rem; border-left:3px solid var(--rule); color:var(--mute) }
+  .tags { display:grid; grid-template-columns:1fr; gap:1rem; margin:0 0 1.5rem }
+  @media (min-width:34rem) { .tags { grid-template-columns:1fr 1fr } }
+  .tagset { border:1px solid var(--rule); border-radius:8px; padding:.9rem 1rem; background:#fff }
+  .tagset h3 { margin:0 0 .5rem; font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; color:var(--mute) }
+  .tagset code { display:block; background:none; padding:.12rem 0 }
+  hr { border:0; border-top:1px solid var(--rule); margin:3rem 0 1.5rem }
+  footer { color:var(--mute); font-size:.88rem }
+  footer p { margin:0 0 .6rem }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="site">
+  <div class="name">Frame Budget Notes</div>
+  <div class="tag">Working notes on generative video specifications</div>
+</header>
+
+<article>
+<h1>The UI control built on a spec that never existed</h1>
+<p class="standfirst">How a plausible-sounding three-tier setting propagated through half a dozen write-ups, and what the official document actually says.</p>
+
+<p>I spent part of last week building a settings panel for a reference-guided video workflow, and I built it wrong. Not because the documentation was unclear &mdash; because I never opened it.</p>
+
+<p>The design I was working from described a three-level control: each reference asset gets tagged as <strong>fully preserved</strong>, <strong>partially copied</strong>, or <strong>reference</strong>, on a slider running from &ldquo;keep this exactly&rdquo; to &ldquo;take inspiration from it&rdquo;. It appears in several write-ups. It sounds exactly like a control a system of this kind would have.</p>
+
+<p>It does not exist.</p>
+
+<h2>What the official guide actually specifies</h2>
+
+<p>The model&rsquo;s own prompt-writing guide defines <strong>eight</strong> tags, split into two sets that apply to different kinds of asset and <strong>must not be mixed</strong>:</p>
+
+<div class="tags">
+  <div class="tagset">
+    <h3>Visual references</h3>
+    <code>fully_preserved</code>
+    <code>partially_preserved</code>
+    <code>attribute_transfer</code>
+    <code>weak_reference</code>
+  </div>
+  <div class="tagset">
+    <h3>Audio references</h3>
+    <code>fully_copy</code>
+    <code>partially_copy</code>
+    <code>reference</code>
+    <code>weak_reference</code>
+  </div>
+</div>
+
+<p>Look at the invented three-tier version again with that in front of you and the failure mode becomes visible: it is one tag from the visual set and two from the audio set, welded into a single scale. Every name in it is real. The system it describes is not.</p>
+
+<p>The consequence is worse than a cosmetic mismatch. A panel offering <code>fully_preserved</code> for an audio clip emits a tag the parser does not accept for that asset type, and the guide is explicit that unresolved tags are not permitted. The control produces invalid prompts by design, and it does so while looking entirely reasonable.</p>
+
+<h2>Three more things the same document says</h2>
+
+<p>Having been wrong once, I read the whole guide. Three other structural rules turned out to be missing from every summary I had relied on.</p>
+
+<p><strong>Tags come in four kinds, not one.</strong> There is a semantic-subject tag and three asset-file tags &mdash; picture, video, audio. The relationship is many-to-many: one subject can be defined by several files, and one file can supply several subjects. Any data model that assumes one tag per uploaded file cannot express what the format allows.</p>
+
+<p><strong>The section order is fixed.</strong> Six sections, in one sequence: subject definitions, summary, retention analysis, detailed description, overall soundscape, non-diegetic music. Not a suggested outline &mdash; a required order, with tag names consistent across all of it.</p>
+
+<p><strong>The summary opens with a bracketed task-type prefix</strong>, combinable with <code>+</code>: keyframe completion, reference generation, video editing, video continuation, audio reuse, audio reference. A prompt describing an edit that reuses the source audio declares both, up front, before any prose.</p>
+
+<p>None of this is buried. It is in a reference file in the vendor&rsquo;s public skills repository, and it took twenty minutes to read.</p>
+
+<h2>Why the wrong version spreads</h2>
+
+<p>The invented three-tier control is <em>better designed</em> than the real specification, in the narrow sense that it is easier to explain and easier to draw. One slider, three stops, obvious semantics. The real thing is two disjoint four-value enumerations with a type constraint between them.</p>
+
+<p>That is the mechanism. <strong>A simplification that improves on the source will out-compete the source</strong>, because it is more quotable and more screenshot-friendly, and each retelling drops the caveat that would have made it checkable. By the fourth or fifth write-up there is no citation left to follow, and the plausibility of the design is doing all the work a source should be doing.</p>
+
+<p>The tell, in hindsight, was that nothing I read pointed at a document. Every version described the three tiers with confidence and none of them said where the tiers came from. Confidence and provenance are not the same signal, and I had been reading one as the other.</p>
+
+<h2>The check that would have caught it</h2>
+
+<p>Before you build a control, an adapter, or a validator against a described format, find <strong>one primary artefact</strong> &mdash; the official guide, a reference file in the vendor&rsquo;s repository, the parser&rsquo;s own source &mdash; and confirm that the enumeration you are about to implement appears in it verbatim. Not paraphrased. Verbatim, with the same spelling and the same underscores.</p>
+
+<p>If you cannot find the enumeration in a primary source, you are implementing folklore. That is occasionally the right call when folklore is all that exists, but you should know that you are doing it, and you should leave a comment saying so.</p>
+
+<p>For the three-field base format, which is simpler and where the same &ldquo;copy the shape from a blog post&rdquo; habit causes smaller but more frequent errors, the fastest way to see the real structure is to watch it get generated. <a href="https://minimax-h3ai.video/video-to-prompt">A tool that reverses a finished clip into the structured prompt format</a> will show you the actual section names in the actual order, which is a better reference than any prose description including this one. The full specification tables, each row linked to its primary source with the date it was last checked, are at <a href="https://minimax-h3ai.video">minimax-h3ai.video</a>.</p>
+
+</article>
+
+<hr>
+<footer>
+  <p><strong>Disclosure:</strong> the two pages linked above are mine. They are an independent third-party interface for the model discussed and are not affiliated with, or endorsed by, its vendor.</p>
+  <p>Checked against the vendor&rsquo;s published prompt-writing guide and its reference files, August 2026. Specifications in this area change; verify against the current document before relying on any of it.</p>
+</footer>
+
+</div>
+</body>
+</html>
+
