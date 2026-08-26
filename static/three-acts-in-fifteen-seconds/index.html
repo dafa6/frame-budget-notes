@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fifteen seconds is enough for three acts, and that is why most short prompts fail</title>
+<meta name="description" content="The hardest thing to get out of a short generative clip is not detail, it is structure. A prompt that describes a situation produces a moving photograph; a prompt that describes a change produces something that reads as a film.">
+<style>*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;background:#fdfdfc}
+.wrap{max-width:44rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+header.site{border-bottom:1px solid #e6e4df;margin-bottom:2.5rem;padding-bottom:1.25rem}
+header.site a{color:#1a1a1a;text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site p{margin:.4rem 0 0;color:#6b6862;font-size:.9rem}
+h1{font-size:1.95rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 .6rem}
+h2{font-size:1.25rem;letter-spacing:-.01em;margin:2.4rem 0 .8rem}
+p.lede{color:#57534e;font-size:1.06rem;margin:0 0 2rem}
+a{color:#1d4ed8}
+code{background:#f3f2ef;padding:.12em .35em;border-radius:3px;font-size:.88em}
+pre{background:#f7f6f3;border:1px solid #e6e4df;border-radius:6px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;margin:1.4rem 0;font-size:.94rem}
+th,td{border:1px solid #e6e4df;padding:.45rem .65rem;text-align:left;vertical-align:top}
+th{background:#f7f6f3;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1rem;border-left:3px solid #d6d3cd;color:#57534e}
+hr{border:0;border-top:1px solid #e6e4df;margin:2.5rem 0}
+ul,ol{padding-left:1.3rem}li{margin:.35rem 0}
+footer.site{margin-top:4rem;padding-top:1.25rem;border-top:1px solid #e6e4df;color:#6b6862;font-size:.88rem}
+ul.toc{list-style:none;padding:0}
+ul.toc li{margin:0 0 1.5rem}
+ul.toc a{font-weight:600;font-size:1.06rem;text-decoration:none}
+ul.toc p{margin:.3rem 0 0;color:#57534e;font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="../">Second Unit Notes</a><p>On the parts of a generative video prompt that are direction, not specification.</p></header>
+<h1>Fifteen seconds is enough for three acts, and that is why most short prompts fail</h1>
+<p class="lede">The hardest thing to get out of a short generative clip is not detail, it is structure. A prompt that describes a situation produces a moving photograph; a prompt that describes a change produces something that reads as a film.</p>
+<p>Write a prompt that describes a scene and you get a moving photograph: a person in a place, doing something, indefinitely. Everything in frame is correct and nothing happens. This is the single most common disappointment with generated video, and it is almost always a structural problem rather than a quality one.</p>
+<p>The fix is not more description. It is a <strong>change of state</strong>, written explicitly.</p>
+<p>The oldest version, and still the most reliable at this length:</p>
+<pre><code>Act 1   A problem, embodied in something visible.
+Act 2   An intervention.
+Act 3   The same situation, visibly changed.</code></pre>
+<p>Too hot. Buys fan. Feels better. Three beats, fifteen seconds, and the result reads as a piece of film rather than a clip, because the last shot means something different from the first.</p>
+<h2>Why the model will not supply this for you</h2>
+<p>A generative video model is a very good scene renderer and an indifferent dramatist. Give it a situation and it will render the situation. Nothing in the objective it was trained against rewards a state change across the clip — coherence, yes; consequence, no.</p>
+<p>So structure is a thing you have to specify, and the specification is short:</p>
+<ul><li><strong>Name the before-state as something visible.</strong> Not "she is hot" — a damp hairline, a hand fanning a face, light shimmering off asphalt. The same rule as everywhere else: if a camera cannot see it, the model cannot render it.</li><li><strong>Name the intervention as a physical action.</strong> The object enters frame, is picked up, is switched on. An intervention that happens off-screen or by implication does not happen.</li><li><strong>Name the after-state as the same visible thing, changed.</strong> Hair lifting in the airflow, the fanning hand dropping, shoulders coming down.</li></ul>
+<p>The third bullet is the one people skip, and skipping it is what turns three acts back into two. <strong>The after-state has to rhyme with the before-state</strong> — same body part, same detail, visibly different. That rhyme is what makes the change readable in four seconds.</p>
+<h2>Budgeting the acts</h2>
+<p>At fifteen seconds the temptation is to split evenly. Don't. Roughly:</p>
+<table><thead><tr><th>Act</th><th>Share</th><th>Why</th></tr></thead><tbody><tr><td>Problem</td><td>~30%</td><td>Needs to be established but is the least interesting part</td></tr><tr><td>Intervention</td><td>~25%</td><td>Shortest — it is a single action</td></tr><tr><td>Result</td><td>~45%</td><td>Where the payoff lives, and where the product is on screen</td></tr></tbody></table>
+<p>If the piece has dialogue, one line per act is the natural allocation, and it is worth writing them as one line per act rather than as a continuous monologue — a line break is where a cut can go.</p>
+<p>At eight seconds rather than fifteen, drop to two acts. <strong>Three acts in eight seconds gives each about two and a half seconds, which is under the floor for a state change to be legible.</strong> Better to do two beats well than three badly.</p>
+<h2>The structure is not the only one, just the default</h2>
+<p>Two other structures work at this length, and both have the same property of being a change rather than a situation:</p>
+<p><strong>Reveal.</strong> The frame shows something ambiguous; the camera or the subject moves; the thing turns out to be something else. One state change, positioned at the end.</p>
+<p><strong>Escalation.</strong> The same action repeats with increasing intensity. Structurally this is the weakest of the three, because it has no turn — but it is the easiest to specify and it suits montage.</p>
+<p>What does <em>not</em> work at this length is anything requiring the viewer to hold two threads. There is no room to cut away and come back.</p>
+<h2>The test</h2>
+<p>Read your prompt and ask: <strong>is the last shot different in meaning from the first?</strong> Not different in content — different in meaning. If a viewer could watch the clip backwards and not notice, there is no structure in it, and no amount of additional description will add any.</p>
+<p>A worked version of the three-act form, with the timings and one line of dialogue per act, is <a href="https://minimax-h3ai.video/prompt-ideas/ugc-problem-solution">the oldest advertising structure there is, written out across fifteen seconds</a>. Prompts built on the reveal and escalation structures instead are in the same library at <a href="https://minimax-h3ai.video">minimax-h3ai.video</a>.</p>
+<p>Disclosure: that is my site — an independent third-party interface for one of the models discussed, not a vendor page.</p>
+<p><em>Duration limits checked against vendor documentation in August 2026.</em></p>
+<hr>
+<h2>More notes</h2>
+<ul><li><a href="../one-static-shot/">The smallest honest test of whether a video model can talk is one static shot</a></li><li><a href="../bullet-time-is-one-instruction/">Bullet time is one instruction and six sentences protecting it</a></li><li><a href="../when-physics-changes-say-when/">If the physics changes mid-clip, the prompt has to say when</a></li></ul>
+<footer class="site"><p>Written and checked in August 2026. Every figure here comes from a vendor API reference; where a vendor has since changed it, the vendor is right and this page is stale.</p><p>These notes are kept by an independent third party, not by a model vendor. <a href="../about/">About these notes</a>.</p></footer>
+</div>
+</body>
+</html>

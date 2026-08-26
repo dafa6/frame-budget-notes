@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The smallest honest test of whether a video model can talk is one static shot</title>
+<meta name="description" content="Everyone benchmarks lip sync inside a montage, where a cut every second hides the failure. The test that actually tells you something spends its entire budget on a single locked-off frame and one spoken line.">
+<style>*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;background:#fdfdfc}
+.wrap{max-width:44rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+header.site{border-bottom:1px solid #e6e4df;margin-bottom:2.5rem;padding-bottom:1.25rem}
+header.site a{color:#1a1a1a;text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site p{margin:.4rem 0 0;color:#6b6862;font-size:.9rem}
+h1{font-size:1.95rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 .6rem}
+h2{font-size:1.25rem;letter-spacing:-.01em;margin:2.4rem 0 .8rem}
+p.lede{color:#57534e;font-size:1.06rem;margin:0 0 2rem}
+a{color:#1d4ed8}
+code{background:#f3f2ef;padding:.12em .35em;border-radius:3px;font-size:.88em}
+pre{background:#f7f6f3;border:1px solid #e6e4df;border-radius:6px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;margin:1.4rem 0;font-size:.94rem}
+th,td{border:1px solid #e6e4df;padding:.45rem .65rem;text-align:left;vertical-align:top}
+th{background:#f7f6f3;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1rem;border-left:3px solid #d6d3cd;color:#57534e}
+hr{border:0;border-top:1px solid #e6e4df;margin:2.5rem 0}
+ul,ol{padding-left:1.3rem}li{margin:.35rem 0}
+footer.site{margin-top:4rem;padding-top:1.25rem;border-top:1px solid #e6e4df;color:#6b6862;font-size:.88rem}
+ul.toc{list-style:none;padding:0}
+ul.toc li{margin:0 0 1.5rem}
+ul.toc a{font-weight:600;font-size:1.06rem;text-decoration:none}
+ul.toc p{margin:.3rem 0 0;color:#57534e;font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="../">Second Unit Notes</a><p>On the parts of a generative video prompt that are direction, not specification.</p></header>
+<h1>The smallest honest test of whether a video model can talk is one static shot</h1>
+<p class="lede">Everyone benchmarks lip sync inside a montage, where a cut every second hides the failure. The test that actually tells you something spends its entire budget on a single locked-off frame and one spoken line.</p>
+<p>If you want to know whether a video model can generate speech that matches a face, the instinct is to write something impressive: a few locations, some camera movement, a couple of speakers. That test tells you almost nothing, because <strong>cutting is the oldest lip-sync fix in cinema</strong>. Every cut is a place where the mouth resets, and a montage with a cut per second never holds a mouth on screen long enough for the sync to visibly drift.</p>
+<p>The test that tells you something is deliberately unimpressive:</p>
+<ul><li><strong>One shot.</strong> No cuts.</li><li><strong>Locked-off camera.</strong> No push, no orbit, no handheld.</li><li><strong>One speaker, facing camera.</strong> No profile, no over-the-shoulder.</li><li><strong>One line, long enough to drift.</strong> Twenty-odd words is about right — long enough that a phase error accumulates, short enough to fit a clip.</li><li><strong>Nothing else.</strong> No scene change, no props doing anything, no second subject.</li></ul>
+<p>That is roughly three hundred characters of prompt against a cap in the thousands, and it is the correct length, because every word you add is budget taken away from the only thing being measured.</p>
+<h2>What you are actually looking at</h2>
+<p>Watch for four failures, in this order. They fail in this order too.</p>
+<p><strong>1. Phase.</strong> Does the mouth move at the same time as the audio, or a beat behind? Easiest to see on plosives — the lips should close <em>before</em> the <em>b</em> or <em>p</em> sounds, not on them.</p>
+<p><strong>2. Viseme shape.</strong> Are the mouth shapes right for the sounds, or is it a generic chewing motion timed to the amplitude envelope? An <em>oo</em> and an <em>ee</em> look nothing alike. Amplitude-driven animation makes them identical.</p>
+<p><strong>3. Drift.</strong> Sync at second one means little. Sync at second seven is the result. A model that resets phase at every cut will drift visibly across an unbroken eight seconds, which is exactly why the montage version hides it.</p>
+<p><strong>4. Idle behaviour.</strong> What does the face do between words, and what does the body do while the face talks? A head that is perfectly still is as wrong as one that bobs on every syllable. Blinks, small weight shifts, a breath before a long clause — these are what separate "a talking face" from "a person talking".</p>
+<h2>Why "no camera move" is doing real work</h2>
+<p>A moving camera is a mercy. Parallax, motion blur and changing angle all reduce how much of the mouth you can scrutinise in any single frame, and a slow push-in gives the eye something else to track. Lock the camera off and there is nothing to look at but the failure.</p>
+<p>Same reason for a front-on angle rather than a three-quarter one. Three-quarter hides the far corner of the mouth, which is where asymmetry shows up first.</p>
+<p>So the sparseness is not minimalism for its own sake. <strong>Each removed element is a removed alibi.</strong></p>
+<h2>Two things to write into the prompt that people leave out</h2>
+<p><strong>Say what the delivery is, not just what the words are.</strong> "Speaking softly, low tones, whispering" is an instruction about the audio, and it constrains the video too, because whispered speech has a smaller mouth aperture and less jaw movement. Give the model only the words and you get a default declamatory reading that matches nothing.</p>
+<p><strong>Say no subtitles.</strong> Models trained on a lot of captioned social video will cheerfully burn text into the frame. If your test is about the mouth, an on-screen caption is both a distraction and a second failure mode you did not ask to evaluate.</p>
+<h2>When to graduate from this test</h2>
+<p>Once a model passes the single-shot version, the interesting failures move somewhere else entirely: identity drift across cuts, two speakers competing in the mix, dialogue that has to land at a specific timestamp. Those are worth testing, and they are <em>different</em> tests. Running them first, before the one-shot baseline passes, means every failure has three possible causes and you cannot tell them apart.</p>
+<p>Start with the boring one. It has one variable.</p>
+<p>The version I use as a baseline is <a href="https://minimax-h3ai.video/prompt-ideas/podcast-whisper-take">a twenty-two word talking-head prompt with nothing in it but the performance</a> — one static shot, one line, no cuts. The prompts that break each of the four failures above, and the model's published dialogue-language support, are at <a href="https://minimax-h3ai.video">https://minimax-h3ai.video</a>.</p>
+<p>Disclosure: that is my site — an independent third-party interface for one of the models discussed, not a vendor page.</p>
+<p><em>Prompt caps and dialogue behaviour checked against vendor documentation in August 2026.</em></p>
+<hr>
+<h2>More notes</h2>
+<ul><li><a href="../bullet-time-is-one-instruction/">Bullet time is one instruction and six sentences protecting it</a></li><li><a href="../when-physics-changes-say-when/">If the physics changes mid-clip, the prompt has to say when</a></li><li><a href="../the-lens-is-the-subject/">Sometimes the lens is the subject and the clothes are set dressing</a></li></ul>
+<footer class="site"><p>Written and checked in August 2026. Every figure here comes from a vendor API reference; where a vendor has since changed it, the vendor is right and this page is stale.</p><p>These notes are kept by an independent third party, not by a model vendor. <a href="../about/">About these notes</a>.</p></footer>
+</div>
+</body>
+</html>

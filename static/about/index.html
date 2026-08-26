@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About these notes</title>
+<meta name="description" content="Who writes Second Unit Notes, what it covers, and its relationship to the tool it discloses.">
+<style>*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;background:#fdfdfc}
+.wrap{max-width:44rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+header.site{border-bottom:1px solid #e6e4df;margin-bottom:2.5rem;padding-bottom:1.25rem}
+header.site a{color:#1a1a1a;text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site p{margin:.4rem 0 0;color:#6b6862;font-size:.9rem}
+h1{font-size:1.95rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 .6rem}
+h2{font-size:1.25rem;letter-spacing:-.01em;margin:2.4rem 0 .8rem}
+p.lede{color:#57534e;font-size:1.06rem;margin:0 0 2rem}
+a{color:#1d4ed8}
+code{background:#f3f2ef;padding:.12em .35em;border-radius:3px;font-size:.88em}
+pre{background:#f7f6f3;border:1px solid #e6e4df;border-radius:6px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;margin:1.4rem 0;font-size:.94rem}
+th,td{border:1px solid #e6e4df;padding:.45rem .65rem;text-align:left;vertical-align:top}
+th{background:#f7f6f3;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1rem;border-left:3px solid #d6d3cd;color:#57534e}
+hr{border:0;border-top:1px solid #e6e4df;margin:2.5rem 0}
+ul,ol{padding-left:1.3rem}li{margin:.35rem 0}
+footer.site{margin-top:4rem;padding-top:1.25rem;border-top:1px solid #e6e4df;color:#6b6862;font-size:.88rem}
+ul.toc{list-style:none;padding:0}
+ul.toc li{margin:0 0 1.5rem}
+ul.toc a{font-weight:600;font-size:1.06rem;text-decoration:none}
+ul.toc p{margin:.3rem 0 0;color:#57534e;font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="../">Second Unit Notes</a><p>On the parts of a generative video prompt that are direction, not specification.</p></header>
+<h1>About these notes</h1>
+<p>Second Unit Notes is about the half of a generative video prompt that is <strong>direction rather than specification</strong> — camera behaviour, performance, physics, structure, and the choices that decide whether a technically correct clip is also worth watching.</p>
+<h2>The distinction it is built on</h2>
+<p>A prompt has two kinds of content in it, and they fail in different ways.</p>
+<p><strong>Specification</strong> is what the model will accept: durations, resolutions, file caps, field order, character limits. Getting it wrong produces an error, or a silent fallback, and the fix is to read the documentation.</p>
+<p><strong>Direction</strong> is what the model will do with what it accepts. Getting it wrong produces a clip where nothing is broken and nothing happens — a moving photograph. There is no error message for this, and no amount of additional description fixes it, because the missing thing is usually structural.</p>
+<p>Almost everything written about prompting covers the first kind. These notes are about the second.</p>
+<h2>The recurring finding</h2>
+<p>Most of these pieces end up at the same place from different directions: <strong>the model supplies the defaults, and your words should be spent on whatever contradicts them.</strong></p>
+<p>A genre label already specifies character design. A scene description already specifies lighting. What is never in the prior is a camera that reacts to events, a subject that refuses to move, a physical rule that changes halfway through, or a last shot that means something different from the first. Those need words, and they need more words than they seem to, because they are competing with everything the model has seen.</p>
+<h2>The disclosure</h2>
+<p>These notes are written by the people who run <a href="https://minimax-h3ai.video">minimax-h3ai.video</a>, an <strong>independent third-party interface</strong> for one of the models discussed. It is not a vendor site, it is not affiliated with or endorsed by any model vendor, and nothing here is official documentation.</p>
+<p>That is why the links go there: every article here is generalised from a specific prompt, and those prompts are published in full on that site, each next to the clip it produced. Reading the note and then the prompt is the intended order.</p>
+<h2>Corrections</h2>
+<p>If a claim here does not survive contact with your own renders, that is worth saying — the reference these notes come out of is at <a href="https://minimax-h3ai.video">minimax-h3ai.video</a> and contact details are on it.</p>
+<footer class="site"><p>Written and checked in August 2026. Every figure here comes from a vendor API reference; where a vendor has since changed it, the vendor is right and this page is stale.</p><p>These notes are kept by the people behind <a href="https://minimax-h3ai.video">minimax-h3ai.video</a>, an independent third-party interface for one of the models discussed. Not a vendor site. <a href="../about/">About these notes</a>.</p></footer>
+</div>
+</body>
+</html>

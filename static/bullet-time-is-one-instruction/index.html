@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bullet time is one instruction and six sentences protecting it</title>
+<meta name="description" content="Asking a video model to orbit a frozen subject is easy to write and hard to get, because every prior the model has says that people and liquids move. The prompt that works spends most of its length forbidding motion, not describing the camera.">
+<style>*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;background:#fdfdfc}
+.wrap{max-width:44rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+header.site{border-bottom:1px solid #e6e4df;margin-bottom:2.5rem;padding-bottom:1.25rem}
+header.site a{color:#1a1a1a;text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site p{margin:.4rem 0 0;color:#6b6862;font-size:.9rem}
+h1{font-size:1.95rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 .6rem}
+h2{font-size:1.25rem;letter-spacing:-.01em;margin:2.4rem 0 .8rem}
+p.lede{color:#57534e;font-size:1.06rem;margin:0 0 2rem}
+a{color:#1d4ed8}
+code{background:#f3f2ef;padding:.12em .35em;border-radius:3px;font-size:.88em}
+pre{background:#f7f6f3;border:1px solid #e6e4df;border-radius:6px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;margin:1.4rem 0;font-size:.94rem}
+th,td{border:1px solid #e6e4df;padding:.45rem .65rem;text-align:left;vertical-align:top}
+th{background:#f7f6f3;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1rem;border-left:3px solid #d6d3cd;color:#57534e}
+hr{border:0;border-top:1px solid #e6e4df;margin:2.5rem 0}
+ul,ol{padding-left:1.3rem}li{margin:.35rem 0}
+footer.site{margin-top:4rem;padding-top:1.25rem;border-top:1px solid #e6e4df;color:#6b6862;font-size:.88rem}
+ul.toc{list-style:none;padding:0}
+ul.toc li{margin:0 0 1.5rem}
+ul.toc a{font-weight:600;font-size:1.06rem;text-decoration:none}
+ul.toc p{margin:.3rem 0 0;color:#57534e;font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="../">Second Unit Notes</a><p>On the parts of a generative video prompt that are direction, not specification.</p></header>
+<h1>Bullet time is one instruction and six sentences protecting it</h1>
+<p class="lede">Asking a video model to orbit a frozen subject is easy to write and hard to get, because every prior the model has says that people and liquids move. The prompt that works spends most of its length forbidding motion, not describing the camera.</p>
+<p>The shot: a person sits still, a splash of liquid hangs in the air beside them, and the camera walks a full circle around both. Time is stopped; only the viewpoint moves.</p>
+<p>The instruction is one sentence. <em>The camera performs a smooth 360-degree horizontal orbit around the subject and the suspended splash.</em></p>
+<p>That sentence alone will not get you the shot. What you will get is a person who shifts their weight, blinks, and turns slightly toward the lens, next to a splash that flows and falls. Both are correct behaviour for everything the model has ever seen. <strong>Video models are trained on video, and in video, people and liquids move.</strong> A single sentence asking for stillness is competing against the entire prior.</p>
+<p>So the working prompt is mostly negative space, expressed positively:</p>
+<ul><li>the subject <strong>remains completely frozen in the exact same pose</strong></li><li><strong>the same facial expression</strong>, maintained throughout</li><li><strong>the same hairstyle, outfit, body position</strong></li><li>the splash <strong>remains suspended in mid-air</strong>, like a sculptural object</li><li>the liquid keeps its <strong>curves, droplets and reflections</strong> but does not flow</li><li>the only thing that changes is <strong>what the camera can see</strong> — parallax, reflections, fabric texture, the far side of the splash coming into view</li></ul>
+<p>Six or seven clauses, all restating one idea from different angles. That is not padding. Each clause closes a different escape route: pose, expression, wardrobe, hair, liquid dynamics. Leave the expression clause out and the face animates while the body holds — which looks worse than either extreme, because it reads as a glitch rather than a style.</p>
+<h2>Why "frozen" needs a positive job to do</h2>
+<p>There is a failure mode on the other side of this, and it is the reason the good version keeps listing things the camera reveals.</p>
+<p>If the prompt says only <em>do not move</em>, you can get a static image with a camera path over it — technically correct, visually dead. The shot is interesting because the <em>frozen thing is three-dimensional</em> and the orbit proves it: reflections track across glass, fabric texture catches light differently at 90° than at 0°, the droplet cluster that read as flat from the front turns out to have depth.</p>
+<p>So the structure is:</p>
+<ol><li><strong>One camera instruction</strong> — path, speed, and the quality of the movement (a gimbal glide reads differently from a drone arc).</li><li><strong>A block of stillness constraints</strong> — one per thing that could animate.</li><li><strong>A block of what the movement reveals</strong> — this is what makes it a shot rather than a Ken Burns pan.</li></ol>
+<p>Miss block 3 and the result is boring in a way that is hard to diagnose, because every explicit instruction was followed.</p>
+<h2>The general rule</h2>
+<p><strong>When you ask for something that contradicts the model's priors, the contradiction needs more words than the request.</strong></p>
+<p>Bullet time is the clearest case, but the pattern shows up everywhere:</p>
+<ul><li>A character who does <em>not</em> react to an explosion.</li><li>A crowd where everyone is looking the wrong way.</li><li>A locked-off camera in a genre that is always handheld.</li><li>Silence where the genre expects score.</li></ul>
+<p>In each case the instruction is short and the protection is long. If you find yourself writing a one-line prompt for something you have never seen in ordinary footage, expect to write the other six lines eventually — better to write them first than to discover which one you needed across four regenerations.</p>
+<h2>A practical way to find the clauses</h2>
+<p>Run it once, minimally. Then list everything in the output that moved and should not have. That list <em>is</em> your protection block, in the model's own vocabulary rather than yours. It usually takes one iteration, and the resulting prompt is reusable for any shot in the same family.</p>
+<p>The worked version I keep is <a href="https://minimax-h3ai.video/prompt-ideas/matcha-fashion-orbit">a fifteen-second orbit where every sentence after the first exists to stop the subject moving</a>, with the reveal clauses marked separately from the freeze clauses. Other prompts built on the same contradict-the-prior structure are at <a href="https://minimax-h3ai.video">https://minimax-h3ai.video</a>.</p>
+<p>Disclosure: that is my site — an independent third-party interface for one of the models discussed, not a vendor page.</p>
+<p><em>Behaviour checked against vendor documentation and reference renders in August 2026.</em></p>
+<hr>
+<h2>More notes</h2>
+<ul><li><a href="../when-physics-changes-say-when/">If the physics changes mid-clip, the prompt has to say when</a></li><li><a href="../the-lens-is-the-subject/">Sometimes the lens is the subject and the clothes are set dressing</a></li><li><a href="../three-acts-in-fifteen-seconds/">Fifteen seconds is enough for three acts, and that is why most short prompts fail</a></li></ul>
+<footer class="site"><p>Written and checked in August 2026. Every figure here comes from a vendor API reference; where a vendor has since changed it, the vendor is right and this page is stale.</p><p>These notes are kept by an independent third party, not by a model vendor. <a href="../about/">About these notes</a>.</p></footer>
+</div>
+</body>
+</html>

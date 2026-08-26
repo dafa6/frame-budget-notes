@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>If the physics changes mid-clip, the prompt has to say when</title>
+<meta name="description" content="A rule the whole clip obeys is cheap to specify. A rule that changes three times is not, because the model has no way to know where the boundaries are unless you put them on a clock.">
+<style>*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;background:#fdfdfc}
+.wrap{max-width:44rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+header.site{border-bottom:1px solid #e6e4df;margin-bottom:2.5rem;padding-bottom:1.25rem}
+header.site a{color:#1a1a1a;text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site p{margin:.4rem 0 0;color:#6b6862;font-size:.9rem}
+h1{font-size:1.95rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 .6rem}
+h2{font-size:1.25rem;letter-spacing:-.01em;margin:2.4rem 0 .8rem}
+p.lede{color:#57534e;font-size:1.06rem;margin:0 0 2rem}
+a{color:#1d4ed8}
+code{background:#f3f2ef;padding:.12em .35em;border-radius:3px;font-size:.88em}
+pre{background:#f7f6f3;border:1px solid #e6e4df;border-radius:6px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;margin:1.4rem 0;font-size:.94rem}
+th,td{border:1px solid #e6e4df;padding:.45rem .65rem;text-align:left;vertical-align:top}
+th{background:#f7f6f3;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1rem;border-left:3px solid #d6d3cd;color:#57534e}
+hr{border:0;border-top:1px solid #e6e4df;margin:2.5rem 0}
+ul,ol{padding-left:1.3rem}li{margin:.35rem 0}
+footer.site{margin-top:4rem;padding-top:1.25rem;border-top:1px solid #e6e4df;color:#6b6862;font-size:.88rem}
+ul.toc{list-style:none;padding:0}
+ul.toc li{margin:0 0 1.5rem}
+ul.toc a{font-weight:600;font-size:1.06rem;text-decoration:none}
+ul.toc p{margin:.3rem 0 0;color:#57534e;font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="../">Second Unit Notes</a><p>On the parts of a generative video prompt that are direction, not specification.</p></header>
+<h1>If the physics changes mid-clip, the prompt has to say when</h1>
+<p class="lede">A rule the whole clip obeys is cheap to specify. A rule that changes three times is not, because the model has no way to know where the boundaries are unless you put them on a clock.</p>
+<p>Most prompts establish a physical world once and leave it alone. Gravity points down, objects fall, people stand on floors. You do not write any of that, because it is the default.</p>
+<p>The interesting case is a world whose rules change <em>during</em> the shot — gravity that flickers off, direction that reverses, a rotating environment where "down" depends on where you are standing. Written casually, this produces mush: the model averages the states and you get a clip where everything drifts vaguely and nothing reads as a change.</p>
+<p>The fix is the same one that works for shot scheduling, applied to physics: <strong>put the state changes on a clock</strong>.</p>
+<pre><code>0.0–3.0s   weightless; camera tumbles; subject pushes off walls
+3.0–6.0s   gravity flickers violently
+6.0–9.0s   full zero-g; bodies and debris spin freely
+9.0–12.0s  gravity repeatedly shifts direction
+12.0–15.0s pull back; the rotating structure is revealed</code></pre>
+<p>Five blocks, three seconds each. Each block names one physical regime. The model is no longer asked "what does inconsistent gravity look like" — it is asked five separate, answerable questions.</p>
+<h2>Why even spacing matters more here than elsewhere</h2>
+<p>In an ordinary timed shot list, uneven blocks are good: a held beat wants four seconds, a whip-pan wants half of one. For a physics sequence, <strong>regular blocks are usually better</strong>, and it is worth understanding why.</p>
+<p>A physics change is only legible if the viewer sees the state <em>before</em> and the state <em>after</em>. That needs enough time on each side to establish a baseline. Three seconds is roughly the floor — under about two, a regime change reads as a glitch rather than an event, because there was never a stable state to depart from.</p>
+<p>So the constraint is not aesthetic. <strong>Each regime needs enough duration to become the expectation that the next one violates.</strong></p>
+<h2>The last block is doing something different</h2>
+<p>Look at the structure again. The first four blocks are inside the chaos: close, confusing, disorienting on purpose. The fifth pulls back and reveals the whole rotating structure from outside.</p>
+<p>That final wide shot is what makes the first twelve seconds legible in retrospect. Without it the clip is just confusion; with it, the confusion was setup. This is an ordinary piece of film grammar — the <em>establishing shot moved to the end</em> — and it is worth writing deliberately, because a model given five equally chaotic blocks will give you five equally chaotic blocks.</p>
+<p>The general form: <strong>if the middle of your clip is intentionally disorienting, one block has to be the one that explains it</strong>, and you should decide whether it goes first or last. Last is usually stronger, and it is what a model will never choose for you.</p>
+<h2>The supporting cast exists to make the rule visible</h2>
+<p>The prompt has soldiers, a fight, an exploding bulkhead, drifting debris. None of that is the subject. <strong>Physics is invisible without objects to act on it</strong> — you cannot see gravity change direction in an empty corridor.</p>
+<p>Which suggests a practical test: for each block, name at least one object whose behaviour differs between this regime and the previous one. Debris that fell in block one and floats in block three. A body that pushed off a wall and now tumbles. If a block does not have such an object, the regime change in it will not be visible, and the block is doing nothing.</p>
+<h2>Three failure modes worth naming in the prompt</h2>
+<ul><li><strong>Averaging.</strong> Without a clock, the model blends the regimes into a single mushy "kind of floaty" state. The timestamps are the whole fix.</li><li><strong>Cutting instead of changing.</strong> A gravity change is not a cut. If you want continuity through the change, say the camera does not cut — otherwise a block boundary is an invitation to one.</li><li><strong>Reset drift.</strong> Each block is a fresh description, so the environment can quietly change with it: different corridor, different lighting, different number of people. Restate what persists — the location, the character, the light source — in the blocks where it matters.</li></ul>
+<p>The worked example is <a href="https://minimax-h3ai.video/prompt-ideas/zero-g-prison">a fifteen-second sequence where gravity changes direction on a three-second clock</a>, including the pull-back that pays off the first four blocks. Other prompts using timed blocks for things other than shot changes are indexed at <a href="https://minimax-h3ai.video">minimax-h3ai.video</a>.</p>
+<p>Disclosure: that is my site — an independent third-party interface for one of the models discussed, not a vendor page.</p>
+<p><em>Duration limits and prompt-format rules checked against vendor documentation in August 2026.</em></p>
+<hr>
+<h2>More notes</h2>
+<ul><li><a href="../the-lens-is-the-subject/">Sometimes the lens is the subject and the clothes are set dressing</a></li><li><a href="../three-acts-in-fifteen-seconds/">Fifteen seconds is enough for three acts, and that is why most short prompts fail</a></li><li><a href="../one-static-shot/">The smallest honest test of whether a video model can talk is one static shot</a></li></ul>
+<footer class="site"><p>Written and checked in August 2026. Every figure here comes from a vendor API reference; where a vendor has since changed it, the vendor is right and this page is stale.</p><p>These notes are kept by an independent third party, not by a model vendor. <a href="../about/">About these notes</a>.</p></footer>
+</div>
+</body>
+</html>

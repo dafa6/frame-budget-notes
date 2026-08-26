@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Second Unit Notes</title>
+<meta name="description" content="On the parts of a generative video prompt that are direction, not specification.">
+<style>*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#1a1a1a;background:#fdfdfc}
+.wrap{max-width:44rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+header.site{border-bottom:1px solid #e6e4df;margin-bottom:2.5rem;padding-bottom:1.25rem}
+header.site a{color:#1a1a1a;text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site p{margin:.4rem 0 0;color:#6b6862;font-size:.9rem}
+h1{font-size:1.95rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 .6rem}
+h2{font-size:1.25rem;letter-spacing:-.01em;margin:2.4rem 0 .8rem}
+p.lede{color:#57534e;font-size:1.06rem;margin:0 0 2rem}
+a{color:#1d4ed8}
+code{background:#f3f2ef;padding:.12em .35em;border-radius:3px;font-size:.88em}
+pre{background:#f7f6f3;border:1px solid #e6e4df;border-radius:6px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+table{border-collapse:collapse;width:100%;margin:1.4rem 0;font-size:.94rem}
+th,td{border:1px solid #e6e4df;padding:.45rem .65rem;text-align:left;vertical-align:top}
+th{background:#f7f6f3;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1rem;border-left:3px solid #d6d3cd;color:#57534e}
+hr{border:0;border-top:1px solid #e6e4df;margin:2.5rem 0}
+ul,ol{padding-left:1.3rem}li{margin:.35rem 0}
+footer.site{margin-top:4rem;padding-top:1.25rem;border-top:1px solid #e6e4df;color:#6b6862;font-size:.88rem}
+ul.toc{list-style:none;padding:0}
+ul.toc li{margin:0 0 1.5rem}
+ul.toc a{font-weight:600;font-size:1.06rem;text-decoration:none}
+ul.toc p{margin:.3rem 0 0;color:#57534e;font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="./">Second Unit Notes</a><p>On the parts of a generative video prompt that are direction, not specification.</p></header>
+<h1>Second Unit Notes</h1>
+<p class="lede">Notes on what a video model will not give you unless you ask: a camera that reacts, a subject that refuses to move, physics that changes mid-clip, and a last shot that means something different from the first.</p>
+<p>Every note here started as a prompt that came back technically correct and creatively dead. The prompts they are drawn from are published in full, each one next to the clip it produced, at <a href="https://minimax-h3ai.video">minimax-h3ai.video</a> — which is also where the specification side of this lives, if you need to know what a model will actually accept before you write for it.</p>
+<ul class="toc">
+<li><a href="one-static-shot/">The smallest honest test of whether a video model can talk is one static shot</a><p>Everyone benchmarks lip sync inside a montage, where a cut every second hides the failure. The test that actually tells you something spends its entire budget on a single locked-off frame and one spoken line.</p></li>
+<li><a href="bullet-time-is-one-instruction/">Bullet time is one instruction and six sentences protecting it</a><p>Asking a video model to orbit a frozen subject is easy to write and hard to get, because every prior the model has says that people and liquids move. The prompt that works spends most of its length forbidding motion, not describing the camera.</p></li>
+<li><a href="when-physics-changes-say-when/">If the physics changes mid-clip, the prompt has to say when</a><p>A rule the whole clip obeys is cheap to specify. A rule that changes three times is not, because the model has no way to know where the boundaries are unless you put them on a clock.</p></li>
+<li><a href="the-lens-is-the-subject/">Sometimes the lens is the subject and the clothes are set dressing</a><p>A prompt can name a genre, a wardrobe and six locations and still be, structurally, an instruction about one piece of glass. Recognising which element is load-bearing changes what you spend words on.</p></li>
+<li><a href="three-acts-in-fifteen-seconds/">Fifteen seconds is enough for three acts, and that is why most short prompts fail</a><p>The hardest thing to get out of a short generative clip is not detail, it is structure. A prompt that describes a situation produces a moving photograph; a prompt that describes a change produces something that reads as a film.</p></li>
+</ul>
+<footer class="site"><p>Written and checked in August 2026. Every figure here comes from a vendor API reference; where a vendor has since changed it, the vendor is right and this page is stale.</p><p>These notes are kept by the people behind <a href="https://minimax-h3ai.video">minimax-h3ai.video</a>, an independent third-party interface for one of the models discussed. Not a vendor site. <a href="./about/">About these notes</a>.</p></footer>
+</div>
+</body>
+</html>
