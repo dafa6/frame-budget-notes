@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The free-seconds ladder runs backwards: the older the Wan model, the more you get — Free Seconds Ledger</title>
+<meta name="description" content="Alibaba grants new Model Studio accounts a one-off free allowance per model. The allowance is denominated in seconds of video, and it is not the same size for every model in the Wa">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dafa6.github.io/frame-budget-notes/free-seconds-ledger/free-seconds-ladder.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The free-seconds ladder runs backwards: the older the Wan model, the more you get">
+<meta property="og:description" content="Alibaba grants new Model Studio accounts a one-off free allowance per model. The allowance is denominated in seconds of video, and it is not the same size for every model in the Wa">
+<style>
+:root{--ink:#16181d;--dim:#5b6270;--line:#e3e6ec;--accent:#1f5fd6;--bg:#fbfbfc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.68 ui-serif,Georgia,"Iowan Old Style",serif}
+.wrap{max-width:44rem;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+header.site{border-bottom:1px solid var(--line);margin-bottom:2.5rem;padding-bottom:1rem}
+header.site a{color:var(--ink);text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site .tag{display:block;color:var(--dim);font-size:.85rem;margin-top:.2rem;
+  font-family:ui-sans-serif,system-ui,sans-serif}
+h1{font-size:1.85rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 1.2rem}
+h2{font-size:1.25rem;margin:2.4rem 0 .8rem;letter-spacing:-.01em}
+h3{font-size:1.05rem;margin:1.8rem 0 .5rem}
+p,li{color:#22252c}
+a{color:var(--accent)}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em}
+code{background:#eef0f4;padding:.1em .35em;border-radius:3px}
+pre{background:#14171d;color:#e6e9ef;padding:1rem 1.1rem;border-radius:6px;
+  overflow-x:auto;line-height:1.5}
+pre code{background:none;padding:0;color:inherit}
+table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.94rem}
+th,td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+th{background:#f2f4f7;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1.1rem;border-left:3px solid var(--line);
+  color:var(--dim)}
+hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
+em{color:var(--dim)}
+footer.site{margin-top:4rem;padding-top:1.2rem;border-top:1px solid var(--line);
+  color:var(--dim);font-size:.85rem;font-family:ui-sans-serif,system-ui,sans-serif}
+nav.more{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--line);
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:.92rem}
+nav.more strong{display:block;margin-bottom:.5rem;font-size:.8rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--dim)}
+nav.more ul{margin:0;padding-left:1.1rem}
+ul.index{list-style:none;padding:0}
+ul.index li{border-bottom:1px solid var(--line);padding:1rem 0}
+ul.index a{font-size:1.1rem;text-decoration:none;font-weight:600}
+ul.index p{margin:.35rem 0 0;color:var(--dim);font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="index.html">Free Seconds Ledger</a><span class="tag">How many seconds of each Wan model you actually get for nothing, and where the number comes from.</span></header>
+<h1>The free-seconds ladder runs backwards: the older the Wan model, the more you get</h1>
+<p>Alibaba grants new Model Studio accounts a one-off free allowance per model. The
+allowance is denominated in seconds of video, and it is not the same size for every
+model in the Wan family. Read as a table, it runs in the opposite direction to what you
+would guess.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Free allowance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wan3.0-video</code></td>
+<td><strong>30 seconds</strong></td>
+</tr>
+<tr>
+<td><code>wan3.0-video-prime</code></td>
+<td><strong>30 seconds</strong></td>
+</tr>
+<tr>
+<td><code>wan2.7-t2v</code></td>
+<td>50 seconds</td>
+</tr>
+<tr>
+<td><code>wan2.6-t2v</code></td>
+<td>50 seconds</td>
+</tr>
+<tr>
+<td><code>wan2.5-t2v-preview</code></td>
+<td>50 seconds</td>
+</tr>
+<tr>
+<td><code>wan2.2-t2v-plus</code></td>
+<td>50 seconds</td>
+</tr>
+<tr>
+<td><code>wanx2.1-t2v-turbo</code></td>
+<td><strong>200 seconds</strong></td>
+</tr>
+<tr>
+<td><code>wanx2.1-t2v-plus</code></td>
+<td><strong>200 seconds</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Read against Alibaba Cloud Model Studio's model-pricing and new-user free-quota pages,
+27 August 2026.</em></p>
+<p>The current flagship gives you the least. The two-generations-old model gives you nearly
+seven times as much. This is not perverse — the older models are cheaper per second to
+run, so a larger allowance costs the vendor the same — but it inverts the intuition that
+a free tier scales with how much the vendor wants you to try something.</p>
+<h2>What thirty seconds buys on Wan 3.0</h2>
+<p>Six five-second clips. Or one clip at the model's maximum length, once.</p>
+<p>That is the honest framing. Thirty seconds is an integration budget, not an evaluation
+budget. It is enough to confirm that your request builder produces a task ID, that your
+polling loop terminates, and that a file arrives. It is not enough to compare two
+prompting approaches, and it is nowhere near enough to decide whether the model suits a
+production brief.</p>
+<p>One detail makes it slightly better than it sounds: each model's allowance is counted
+separately, and <code>wan3.0-video</code> and <code>wan3.0-video-prime</code> are separate models. So the
+practical Wan 3.0 allowance is 30 seconds on the standard model plus 30 seconds on
+Prime, which is also the cheapest way anyone will ever get to compare those two against
+each other.</p>
+<p>They do not pool. You cannot spend Prime's thirty seconds on the standard model, and a
+dated snapshot version of a model counts as a different model with its own separate
+allowance.</p>
+<h2>The three conditions that matter more than the size</h2>
+<p><strong>It is one-off, not recurring.</strong> The allowance runs from the date you activate Model
+Studio, or the date the model is released, or the date your application is approved —
+whichever applies — and it lasts <strong>90 days</strong>. It does not refresh daily, weekly or
+monthly. When it is gone it is gone, and the ninety-day clock keeps running whether you
+use it or not.</p>
+<p><strong>It exists in exactly one region.</strong> Alibaba's wording is direct: the models listed have
+free quota <strong>only in the China North 2 (Beijing) region, and no free quota in any other
+region</strong>. The price tables for Singapore, Tokyo, Frankfurt and Virginia do not have a
+free-quota column at all.</p>
+<p>This is the condition that catches international developers, because the reasonable
+first move — pick the region closest to your users — silently forfeits the entire
+allowance. And the region is not a runtime switch: the model, the endpoint and the API
+key all have to be in the same region, so choosing wrong means minting a new key in the
+right one and starting over.</p>
+<p><strong>Failures do not consume it.</strong> Alibaba's billing rules state that failed generations are
+not charged and do not draw down free quota. This is genuinely good news and it is worth
+knowing before you start, because it changes how you should spend the allowance: you can
+afford to send the request that might be rejected. The expensive mistake is not a failed
+job, it is a successful job at the wrong resolution.</p>
+<h2>The one that actually eats the allowance</h2>
+<p><code>resolution</code> defaults to <code>1080P</code>.</p>
+<p>Free quota is counted in seconds, not in money, so a 1080P second and a 480P second draw
+the same single second from your thirty. That means resolution does not affect how fast
+you burn the allowance — but it does mean there is no reason at all to evaluate at 480P
+while you are inside it. Spend the free seconds at the resolution you actually intend to
+ship at, because the allowance will not tell you anything about quality at 1080P if you
+spent it at 480P.</p>
+<p>The reverse is true the moment the allowance runs out, and the switch is abrupt: from
+that point resolution is a 4× cost multiplier, and 480P becomes the correct place to
+iterate.</p>
+<h2>How to spend thirty seconds</h2>
+<p>If the allowance is an integration budget, spend it like one:</p>
+<ol>
+<li><strong>Two seconds</strong> — smallest legal duration, explicit resolution, explicit ratio,
+   <code>prompt_extend: false</code>. Confirms the async header, the region-key pairing and the
+   polling loop. Do not skip this to save a second; a failed first call teaches you
+   nothing about the model and costs nothing anyway.</li>
+<li><strong>Five seconds with audio</strong> — speech, effects and music are generated in the same pass
+   as the picture, and the audio toggle does not change the price. This is the run that
+   tells you whether the model's headline capability is real for your material.</li>
+<li><strong>Ten seconds with a reference image</strong> — the one that shows whether identity holds
+   across a take.</li>
+<li><strong>The rest in one long take</strong> — because the thirty-second ceiling in a single
+   continuous pass is the thing that distinguishes this model, and you cannot learn
+   anything about it from five-second clips. If you would rather not spend allowance
+   working out how to phrase a long take, there are
+   <a href="https://wan-3.run/prompt-ideas">eleven complete worked prompts printed beside the clips they produced</a>
+   that you can copy before you spend a second of it.</li>
+</ol>
+<p>Note what is missing from that list: attaching a reference <em>video</em>. Input video seconds
+are billed on top of output seconds, and inside a fixed thirty-second allowance that is
+a straight subtraction from what you have left to look at. Reference images, audio,
+documents and web links add nothing. Reference video is the one input that costs you
+allowance before the model produces a frame.</p>
+<nav class="more"><strong>Also on this site</strong><ul><li><a href="token-plan-excludes-wan-video.html">Is there a cheap Wan subscription? There is a ¥39 plan, and it excludes the video models</a></li>
+<li><a href="what-draws-down-the-allowance.html">What draws down an allowance, and what is free even though it looks expensive</a></li></ul></nav>
+<footer class="site">Written by Ray Lin. Every specification here was read against Alibaba Cloud Model Studio's own documentation and carries the date it was read. Disclosure: the author operates wan-3.run, a hosted interface for this model — see the <a href="about.html">about page</a>.</footer>
+</div>
+</body>
+</html>

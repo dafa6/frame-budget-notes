@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What draws down an allowance, and what is free even though it looks expensive — Free Seconds Ledger</title>
+<meta name="description" content="An allowance denominated in seconds sounds simple until you attach something to a request. Then the question becomes: which seconds count? Here is the whole answer for Wan 3.0, sor">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dafa6.github.io/frame-budget-notes/free-seconds-ledger/what-draws-down-the-allowance.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What draws down an allowance, and what is free even though it looks expensive">
+<meta property="og:description" content="An allowance denominated in seconds sounds simple until you attach something to a request. Then the question becomes: which seconds count? Here is the whole answer for Wan 3.0, sor">
+<style>
+:root{--ink:#16181d;--dim:#5b6270;--line:#e3e6ec;--accent:#1f5fd6;--bg:#fbfbfc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.68 ui-serif,Georgia,"Iowan Old Style",serif}
+.wrap{max-width:44rem;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+header.site{border-bottom:1px solid var(--line);margin-bottom:2.5rem;padding-bottom:1rem}
+header.site a{color:var(--ink);text-decoration:none;font-weight:600;letter-spacing:-.01em}
+header.site .tag{display:block;color:var(--dim);font-size:.85rem;margin-top:.2rem;
+  font-family:ui-sans-serif,system-ui,sans-serif}
+h1{font-size:1.85rem;line-height:1.25;letter-spacing:-.02em;margin:0 0 1.2rem}
+h2{font-size:1.25rem;margin:2.4rem 0 .8rem;letter-spacing:-.01em}
+h3{font-size:1.05rem;margin:1.8rem 0 .5rem}
+p,li{color:#22252c}
+a{color:var(--accent)}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em}
+code{background:#eef0f4;padding:.1em .35em;border-radius:3px}
+pre{background:#14171d;color:#e6e9ef;padding:1rem 1.1rem;border-radius:6px;
+  overflow-x:auto;line-height:1.5}
+pre code{background:none;padding:0;color:inherit}
+table{border-collapse:collapse;width:100%;margin:1.2rem 0;font-size:.94rem}
+th,td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+th{background:#f2f4f7;font-weight:600}
+blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1.1rem;border-left:3px solid var(--line);
+  color:var(--dim)}
+hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
+em{color:var(--dim)}
+footer.site{margin-top:4rem;padding-top:1.2rem;border-top:1px solid var(--line);
+  color:var(--dim);font-size:.85rem;font-family:ui-sans-serif,system-ui,sans-serif}
+nav.more{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--line);
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:.92rem}
+nav.more strong{display:block;margin-bottom:.5rem;font-size:.8rem;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--dim)}
+nav.more ul{margin:0;padding-left:1.1rem}
+ul.index{list-style:none;padding:0}
+ul.index li{border-bottom:1px solid var(--line);padding:1rem 0}
+ul.index a{font-size:1.1rem;text-decoration:none;font-weight:600}
+ul.index p{margin:.35rem 0 0;color:var(--dim);font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="index.html">Free Seconds Ledger</a><span class="tag">How many seconds of each Wan model you actually get for nothing, and where the number comes from.</span></header>
+<h1>What draws down an allowance, and what is free even though it looks expensive</h1>
+<p>An allowance denominated in seconds sounds simple until you attach something to a
+request. Then the question becomes: which seconds count? Here is the whole answer for
+Wan 3.0, sorted by how surprising it is.</p>
+<p><em>Read against Alibaba Cloud Model Studio billing rules and the API reference,
+27 August 2026. The input-billing formula is corroborated by three independent gateway
+documentations, which is flagged where it is used.</em></p>
+<h2>Free, and more generous than people expect</h2>
+<p><strong>Failed generations.</strong> Alibaba's billing rules state plainly that a failed job is not
+charged and does not consume free quota. Both halves matter. It means you can send the
+request you are unsure about — an unusual aspect ratio, an aggressive prompt, an asset
+near a size limit — and if it is rejected, you have lost time and nothing else.</p>
+<p><strong>Audio.</strong> Speech, sound effects and music are generated in the same pass as the picture.
+The <code>audio</code> parameter switches the soundtrack on and off and <strong>does not change the
+price</strong>, because there is no second pass to skip. Turning it off to save money saves
+nothing. This is unusual enough in this category to be worth stating twice: at least one
+competing model charges roughly 50% more per second when native audio is enabled.</p>
+<p><strong>Reference images.</strong> Up to ten per request, free.</p>
+<p><strong>Reference audio.</strong> Up to five tracks, one to fifteen seconds each, free.</p>
+<p><strong>Documents.</strong> A PPT, PDF, DOC, spreadsheet, Markdown file or Keynote up to 50 pages and
+100MB. Free. The model reads it and dramatises what is inside rather than narrating over
+your slides, and that entire capability adds nothing to the bill.</p>
+<p><strong>A public web page.</strong> One link per request, free. Alibaba's own wording is that it
+"only supports parsing publicly accessible web pages that do not require login".</p>
+<h2>Billed, at your output rate</h2>
+<p><strong>Reference video.</strong> This is the exception, and it is the expensive one.</p>
+<p>Attached reference video is billed for its own duration at the same per-second rate as
+your output. The formula three independent gateway documentations state identically:</p>
+<pre><code>billable seconds = detected input video seconds + requested output seconds
+</code></pre>
+<p>rounded up to whole seconds. A 4.5-second reference clip plus a 5-second output at 720P
+is ten billable seconds, not five.</p>
+<p>The corroboration for this is in Alibaba's own response schema: the <code>usage</code> object
+carries an <code>input_video_duration</code> field alongside <code>output_video_duration</code>. A field that
+was always zero and never affected anything would not exist.</p>
+<p>So the asymmetry, stated as bluntly as it deserves: <strong>ten reference images cost nothing.
+One fifteen-second reference clip is the most expensive input you can attach.</strong> Inside a
+fixed thirty-second free allowance, a fifteen-second reference video is half your
+allowance spent before the model renders a frame.</p>
+<h2>Billed, and easy to trigger by accident</h2>
+<p><strong>Resolution you did not choose.</strong> <code>resolution</code> defaults to <code>1080P</code>, four times the 480P
+rate per second. Against a free allowance counted in seconds this costs you nothing
+extra; against a bill it is the single most common way an estimate comes out four times
+low.</p>
+<p><strong>Length you did not choose.</strong> <code>duration</code> accepts <code>-1</code>, meaning the model picks the
+length. That is a legitimate creative setting and an awkward billing one, because you
+cannot know the number in advance. Reconcile from <code>usage.output_video_duration</code>, which is
+the only field that reports what actually got produced.</p>
+<p>If you are consuming Wan 3.0 through a reseller rather than through Alibaba directly, ask
+how that reseller handles <code>-1</code> before you rely on it. The documented behaviours differ
+sharply: one pre-authorises the full thirty seconds and refunds against actual output;
+another charges the full thirty seconds and does not refund. Same parameter, up to
+twenty-eight seconds of difference per job.</p>
+<h2>The clocks, which cost nothing but lose you things</h2>
+<p>Two independent 24-hour windows start when a job is submitted. The <code>task_id</code> stops
+resolving after 24 hours — a query past that returns <code>UNKNOWN</code>, which means <em>expired</em>,
+not <em>failed</em>, and needs its own branch in your code and its own sentence in your UI. And
+the returned <code>video_url</code> expires 24 hours after the job, so a finished file that was not
+copied to permanent storage is simply gone.</p>
+<p>Neither of these costs an allowance second. Both of them can cost you the output you
+already paid for, which is worse.</p>
+<h2>The one-page summary</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Draws down seconds?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Successful generation</td>
+<td>Yes — output seconds</td>
+</tr>
+<tr>
+<td>Reference video attached</td>
+<td>Yes — input seconds too, at your output rate</td>
+</tr>
+<tr>
+<td>Failed generation</td>
+<td><strong>No</strong></td>
+</tr>
+<tr>
+<td>Audio on</td>
+<td><strong>No</strong></td>
+</tr>
+<tr>
+<td>Reference images (≤10)</td>
+<td><strong>No</strong></td>
+</tr>
+<tr>
+<td>Reference audio (≤5 tracks)</td>
+<td><strong>No</strong></td>
+</tr>
+<tr>
+<td>Document (≤50 pages, ≤100MB)</td>
+<td><strong>No</strong></td>
+</tr>
+<tr>
+<td>Public web page link</td>
+<td><strong>No</strong></td>
+</tr>
+<tr>
+<td>Higher resolution</td>
+<td>Not against a seconds allowance; 4× against a bill</td>
+</tr>
+</tbody>
+</table>
+<p>If you want to see the same arithmetic applied to a real invoice rather than to an
+allowance, there is a worked breakdown of
+<a href="https://wan-3.run/blog/what-a-wan-3-0-clip-actually-costs">the four multipliers between the per-second rate and what you actually pay</a>.</p>
+<nav class="more"><strong>Also on this site</strong><ul><li><a href="free-seconds-ladder.html">The free-seconds ladder runs backwards: the older the Wan model, the more you get</a></li>
+<li><a href="token-plan-excludes-wan-video.html">Is there a cheap Wan subscription? There is a ¥39 plan, and it excludes the video models</a></li></ul></nav>
+<footer class="site">Written by Ray Lin. Every specification here was read against Alibaba Cloud Model Studio's own documentation and carries the date it was read. Disclosure: the author operates wan-3.run, a hosted interface for this model — see the <a href="about.html">about page</a>.</footer>
+</div>
+</body>
+</html>

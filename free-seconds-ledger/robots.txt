@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dafa6.github.io/frame-budget-notes/free-seconds-ledger/sitemap.xml
