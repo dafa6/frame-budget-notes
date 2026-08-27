@@ -1,0 +1,24 @@
+site_name: Prompting Wan 3.0 for long single takes
+site_description: >-
+  Field notes on writing prompts for a video model that renders up to thirty seconds
+  in one pass, at 30 fps, with no negative-prompt parameter.
+site_author: Ray Lin
+repo_url: https://github.com/dafa6/frame-budget-notes
+edit_uri: edit/wan3-prompt-notes/docs/
+
+theme:
+  name: readthedocs
+  highlightjs: true
+
+nav:
+  - Overview: index.md
+  - Length and beats: length-and-beats.md
+  - Saying what you do not want: exclusions.md
+  - Camera language: camera.md
+  - The rewrite you did not ask for: rewriting.md
+  - Before you send it: checklist.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - fenced_code
