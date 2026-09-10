@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The negative prompt field that does not exist, and the write-ups that document it anyway — Frame Budget Notes</title>
+<meta name="description" content="Search for how to stop a generative video model doing something, and a good proportion of the results will tell you to use the negative prompt parameter. They will name a field. So">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="/no-negative-prompt.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The negative prompt field that does not exist, and the write-ups that document it anyway">
+<meta property="og:description" content="Search for how to stop a generative video model doing something, and a good proportion of the results will tell you to use the negative prompt parameter. They will name a field. So">
+<style>
+:root { --ink:#16181d; --dim:#5b6270; --line:#e3e6ec; --accent:#1f5fd6; --bg:#fbfbfc; }
+* { box-sizing:border-box }
+body { margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.68 ui-serif,Georgia,"Iowan Old Style",serif; }
+.wrap { max-width:44rem; margin:0 auto; padding:2.5rem 1.25rem 5rem }
+header.site { border-bottom:1px solid var(--line); margin-bottom:2.5rem; padding-bottom:1rem }
+header.site a { color:var(--ink); text-decoration:none; font-weight:600; letter-spacing:-.01em }
+header.site .tag { display:block; color:var(--dim); font-size:.85rem; margin-top:.2rem;
+  font-family:ui-sans-serif,system-ui,sans-serif }
+h1 { font-size:1.85rem; line-height:1.25; letter-spacing:-.02em; margin:0 0 1.2rem }
+h2 { font-size:1.25rem; margin:2.4rem 0 .8rem; letter-spacing:-.01em }
+h3 { font-size:1.05rem; margin:1.8rem 0 .5rem }
+p, li { color:#22252c }
+a { color:var(--accent) }
+code, pre { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.86em }
+code { background:#eef0f4; padding:.1em .35em; border-radius:3px }
+pre { background:#14171d; color:#e6e9ef; padding:1rem 1.1rem; border-radius:6px;
+  overflow-x:auto; line-height:1.5 }
+pre code { background:none; padding:0; color:inherit }
+table { border-collapse:collapse; width:100%; margin:1.2rem 0; font-size:.94rem }
+th, td { border:1px solid var(--line); padding:.5rem .65rem; text-align:left;
+  vertical-align:top }
+th { background:#f2f4f7; font-weight:600 }
+blockquote { margin:1.4rem 0; padding:.2rem 0 .2rem 1.1rem; border-left:3px solid var(--line);
+  color:var(--dim) }
+hr { border:0; border-top:1px solid var(--line); margin:2.5rem 0 }
+em { color:var(--dim) }
+footer.site { margin-top:4rem; padding-top:1.2rem; border-top:1px solid var(--line);
+  color:var(--dim); font-size:.85rem; font-family:ui-sans-serif,system-ui,sans-serif }
+ul.index { list-style:none; padding:0 }
+ul.index li { border-bottom:1px solid var(--line); padding:1rem 0 }
+ul.index a { font-size:1.1rem; text-decoration:none; font-weight:600 }
+ul.index p { margin:.35rem 0 0; color:var(--dim); font-size:.95rem }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a href="/">Frame Budget Notes</a><span class="tag">Field notes on the Wan 3.0 video API — sourced, dated, and corrected in public.</span></header>
+<h1>The negative prompt field that does not exist, and the write-ups that document it anyway</h1>
+<h1>The negative prompt field that does not exist, and the write-ups that document it anyway</h1>
+<p>Search for how to stop a generative video model doing something, and a good proportion
+of the results will tell you to use the negative prompt parameter. They will name a
+field. Some of them will show it in a JSON body. It reads like documentation.</p>
+<p>For Wan 3.0 there is no such parameter, and tracing how the claim got there is a useful
+exercise in reading specifications, because the mechanism is the same one that produces
+the 4K tier and the 21:9 ratio that also do not exist.</p>
+<h2>Where the claim comes from</h2>
+<p>Three sources, compounding.</p>
+<p><strong>The rest of the category has one.</strong> Negative prompting is a real and widespread
+feature in image generation, and several video models inherited it. Writing "most video
+models accept a negative prompt" is close enough to true that nobody stops to check the
+specific one they are writing about.</p>
+<p><strong>A previous generation is a different model.</strong> The family this model belongs to has
+earlier members with different parameter sets, and some of those are open-weight
+releases with community tooling around them. Documentation for a community wrapper of a
+two-generations-old open model is not documentation for the current closed flagship, but
+it ranks for the same queries.</p>
+<p><strong>Plausibility is self-reinforcing.</strong> Once one write-up shows a field, the next writer
+sees it in two places and treats it as confirmed. Nobody in the chain is lying. Nobody
+in the chain checked the primary source either.</p>
+<h2>What actually exists</h2>
+<p>Exclusions are expressed <strong>in the prompt text</strong>, in natural language, like everything
+else. The prompt ceiling is twenty thousand characters, so there is no shortage of room
+to say what you do not want.</p>
+<p>That sounds like a downgrade and mostly is not, with one caveat that changes how you
+write.</p>
+<p><strong>The caveat: anything you name gets weight.</strong> With a dedicated negative field, the
+model is told "these tokens are the things to avoid" structurally. In a single prompt
+there is no such marker, so a prompt that opens with</p>
+<pre><code>No text overlays, no watermark, no logo, no on-screen captions.
+</code></pre>
+<p>has spent its opening on describing text overlays. Whether that increases their
+likelihood is model-dependent and hard to measure honestly, but it certainly consumes
+the position in the prompt where the subject should have been.</p>
+<p><strong>The working rule:</strong> put exclusions last, state each once, and keep them short.</p>
+<pre><code>SUBJECT. ...
+ACTION. ...
+SETTING. ...
+CAMERA. ...
+SOUND. ...
+EXCLUDE. No on-screen text. No score.
+</code></pre>
+<p>Stating something once is deliberate. Repeating a prohibition three ways —
+"no text, no captions, no titles, no lower thirds" — is four mentions of text where one
+would do.</p>
+<h2>The three-part check that catches this class of error</h2>
+<p>The negative prompt claim, the 4K claim, the 21:9 claim and the 24 fps claim all fail
+the same test. It takes about two minutes per figure.</p>
+<ol>
+<li>
+<p><strong>Does the page cite a primary source for the figure?</strong> Not "according to our
+   research", not a link to another blog — a link to the model provider's own parameter
+   documentation. Pages that copied a number cite nothing or cite each other.</p>
+</li>
+<li>
+<p><strong>Is the figure attached to a date?</strong> Model specifications change between releases.
+   A parameter table with no verification date is a claim about an unspecified moment.</p>
+</li>
+<li>
+<p><strong>Does the figure belong to this model, or to a sibling?</strong> This is the one that
+   catches the most errors. Families of models share a brand and differ in parameters,
+   and the open-weight member of a family is usually the one with the community docs.
+   Check the model identifier, not the family name.</p>
+</li>
+</ol>
+<p>Applied to the current flagship, the honest table is short and dull:</p>
+<table>
+<thead>
+<tr>
+<th>Claim you will read</th>
+<th>What is documented</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Negative prompt parameter</td>
+<td>Does not exist. Exclusions go in the prompt text.</td>
+</tr>
+<tr>
+<td>4K output</td>
+<td>480P, 720P and 1080P. 1080P is the ceiling.</td>
+</tr>
+<tr>
+<td>21:9</td>
+<td>16:9 is the widest. Also 4:3, 1:1, 3:4, 9:16, adaptive.</td>
+</tr>
+<tr>
+<td>24 fps</td>
+<td>30 fps.</td>
+</tr>
+<tr>
+<td>Open weights available</td>
+<td>The current flagship is closed. An earlier generation was released openly; it is a different model.</td>
+</tr>
+<tr>
+<td>Director mode / camera API</td>
+<td>Camera behaviour is described in the prompt text.</td>
+</tr>
+</tbody>
+</table>
+<h2>Why this is worth caring about</h2>
+<p>Not pedantry. Each of these has an operational cost.</p>
+<p>Building a UI control for a parameter that does not exist means shipping a switch that
+does nothing, and users will reasonably conclude the model ignored them. Budgeting for
+4K means budgeting for a tier you cannot buy. Designing a 21:9 delivery means discovering
+at the crop stage that you are throwing away vertical resolution.</p>
+<p>The generalisable habit is simple: <strong>when a specification matters enough to build on,
+follow it to the vendor's own page and write down the date you looked.</strong> It is a
+two-minute check that prevents a category of error that is otherwise invisible until it
+is expensive.</p>
+<hr />
+<p>The specification table this page refers to is published row by row, each with a link to
+the provider's own documentation and the date it was last verified, at
+<a href="https://wan-3.run/wan-3-0-specs">the Wan 3.0 specification page</a>. The interface is at
+<a href="https://wan-3.run/">wan-3.run</a>, where the first clip is free and prints the model
+identifier it actually ran.</p>
+<p>wan-3.run is an independent third-party interface built on Wan 3.0. It is not affiliated
+with, endorsed by, or sponsored by Alibaba Group or Alibaba Cloud.</p>
+<footer class="site">Written by Ray Lin. Specifications are checked against Alibaba Cloud's Model Studio documentation and carry the date they were read. Disclosure: I run <a href="https://wan-3.run">wan-3.run</a>, a hosted browser interface for this model.</footer>
+</div>
+</body>
+</html>
