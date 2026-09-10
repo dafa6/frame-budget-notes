@@ -18,6 +18,7 @@ nav:
   - Camera language: camera.md
   - The rewrite you did not ask for: rewriting.md
   - The six slots: six-slots.md
+  - Sound in the same prompt: sound-in-the-same-prompt.md
   - Before you send it: checklist.md
 
 markdown_extensions:
