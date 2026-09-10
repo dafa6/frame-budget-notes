@@ -1,0 +1,23 @@
+site_name: MiniMax H3 Max request limits
+site_description: >-
+  A parameter reference for MiniMax H3 Max: what the model accepts, what it
+  refuses, and what each option costs. Every value carries the date it last changed.
+site_author: Andy White
+repo_url: https://github.com/dafa6/frame-budget-notes
+edit_uri: edit/mmh3max-limits/docs/
+
+theme:
+  name: readthedocs
+  highlightjs: true
+
+nav:
+  - Overview: index.md
+  - What comes out: output.md
+  - What you can put in: input.md
+  - What it costs: cost.md
+  - Which limits reject: rejects.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - fenced_code
